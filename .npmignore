@@ -1,0 +1,8 @@
+.idea
+.vscode
+demo/
+*.gif
+*.png
+*.log
+*.map
+!*.d.ts

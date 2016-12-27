@@ -1,0 +1,74 @@
+{
+  "name": "nativescript-nodeify",
+  "version": "0.1.0",
+  "description": "Attempts to make most npm modules 'just work' with NativeScript",
+  "main": "nodeify",
+  "nativescript": {
+    "platforms": {
+      "android": "2.3.0",
+      "ios": "2.3.0"
+    },
+    "hooks": [
+      {
+        "type": "before-prepare",
+        "script": "patch-npm-packages.js"
+      }
+    ]
+  },
+  "scripts": {
+    "demo.ios": "npm run preparedemo && cd demo && tns emulate ios",
+    "demo.ios.device": "npm run preparedemo && cd demo && tns run ios",
+    "demo.android": "npm run preparedemo && cd demo && tns run android",
+    "test.ios": "cd demo && tns test ios --emulator",
+    "test.ios.device": "cd demo && tns test ios",
+    "test.android": "cd demo && tns test android",
+    "preparedemo": "cd demo && tns plugin add .. && tns install",
+    "setup": "npm i && cd demo && npm i && cd .. && cd demo && tns plugin add .. && cd ..",
+    "postinstall": "node postinstall.js",
+    "preuninstall": "node preuninstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EddyVerbruggen/nativescript-nodeify.git"
+  },
+  "keywords": [
+    "ecosystem:nativescript",
+    "NativeScript",
+    "Node",
+    "npm",
+    "Android",
+    "iOS",
+    "crypto"
+  ],
+  "author": {
+    "name": "Eddy Verbruggen",
+    "email": "eddyverbruggen@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/EddyVerbruggen/nativescript-nodeify/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/EddyVerbruggen/nativescript-nodeify",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "replace-in-file": "^2.0.3",
+    "nativescript-hook": "^0.2.1",
+    "process": "0.11.9",
+    "buffer": "5.0.2",
+    "events": "~1.1.0",
+    "string_decoder": "0.10.31",
+    "path-browserify": "0.0.0",
+    "http-browserify": "~1.0.0",
+    "https-browserify": "~0.0.0",
+    "stream-browserify": "^2.0.0",
+    "crypto-browserify": "^3.0.0",
+    "nativescript-randombytes": "1.0.0",
+    "util": "~0.10.1"
+  },
+  "devDependencies": {
+    "tns-core-modules": "^2.3.0",
+    "tns-platform-declarations": "^2.3.0",
+    "prompt": "^1.0.0",
+    "rimraf": "^2.5.0"
+  }
+}

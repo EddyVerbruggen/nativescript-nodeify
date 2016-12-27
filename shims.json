@@ -1,0 +1,20 @@
+{
+  "buffer": "nativescript-nodeify/node_modules/buffer",
+  "child_process": "nativescript-nodeify/empty.js",
+  "cluster": "nativescript-nodeify/empty.js",
+  "crypto": "nativescript-nodeify/node_modules/crypto-browserify",
+  "dgram": "nativescript-nodeify/empty.js",
+  "dns": "nativescript-nodeify/empty.js",
+  "events": "nativescript-nodeify/node_modules/events",
+  "http": "nativescript-nodeify/node_modules/http-browserify",
+  "https": "nativescript-nodeify/node_modules/https-browserify",
+  "net": "nativescript-nodeify/empty.js",
+  "path": "nativescript-nodeify/node_modules/path-browserify",
+  "randombytes": "nativescript-nodeify/node_modules/nativescript-randombytes",
+  "readline": "nativescript-nodeify/empty.js",
+  "repl": "nativescript-nodeify/empty.js",
+  "stream": "nativescript-nodeify/node_modules/stream-browserify",
+  "string_decoder": "nativescript-nodeify/node_modules/string_decoder/",
+  "tls": "nativescript-nodeify/empty.js",
+  "util": "nativescript-nodeify/node_modules/util/util.js"
+}

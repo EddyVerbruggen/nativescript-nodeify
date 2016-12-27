@@ -1,0 +1,13 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded">
+
+  <StackLayout horizontalAlignment="center">
+    <Label text="Please change the AWS keys in main-view-model.ts" class="message" textWrap="true"/>
+    <Button text="Sign Up Cognito User" tap="{{ signUpUser }}" class="button button-a"/>
+    <Button text="Authenticate Cognito User" tap="{{ authUser }}" class="button button-a"/>
+    <Button text="List Dynamo tables" tap="{{ listDynamoTables }}" class="button button-b"/>
+    <Button text="Update Dynamo table" tap="{{ updateDynamoTable }}" class="button button-b"/>
+    <Button text="jsonwebtokens" tap="{{ jwt }}" class="button button-c"/>
+    <Button text="node-uuid" tap="{{ nodeUUID }}" class="button button-c"/>
+  </StackLayout>
+
+</Page>
