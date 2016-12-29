@@ -1,13 +1,17 @@
-// TODO for nativescript-aws we can add the config to its package.json and add a dep on this plugin (then also scan plugins' package.json for nodeify configs)
-
 function log(what) {
   // console.log(what);
 }
 
 var shims = require('./shims.json');
 
-// never touch these, mostly for performance reasons
-var blacklist = ["tns-core-modules", "nativescript-nodeify/node_modules/replace-in-file"];
+// never touch these, for performance reasons
+var blacklist = [
+  "tns-core-modules",
+  "nativescript-nodeify/node_modules/replace-in-file"
+];
+
+// and don't touch these as their browser implementation is actually less {N} compatible than the default
+blacklist.push("form-data");
 
 var fs = require('fs'),
     path = require('path'),
@@ -42,8 +46,7 @@ function findFilesByName(startPath, filter, result) {
   return result;
 }
 
-function patchPackageJsonAndFetchBrowserNode(fileName, nodeCompatPatchNode) {
-  var file = require(fileName);
+function patchPackageJsonAndFetchBrowserNode(fileName, file, nodeCompatPatchNode) {
   var main = file.main;
   var browser = file.browser;
   var patched = false;
@@ -75,7 +78,13 @@ function patchPackage(packagepath, nodeCompatPatchNode) {
   var patchInPackageJson = Object.assign({}, shims);
   patchInPackageJson = Object.assign(patchInPackageJson, nodeCompatPatchNode);
 
-  var browserNode = patchPackageJsonAndFetchBrowserNode(packagepath + "/package.json", patchInPackageJson) || {};
+  var fileName = packagepath + "/package.json";
+  var file = require(fileName);
+  if (blacklist.indexOf(file.name) > -1) {
+    return;
+  }
+
+  var browserNode = patchPackageJsonAndFetchBrowserNode(fileName, file, patchInPackageJson) || {};
   var patchMe = Object.assign({}, shims);
   if (typeof browserNode === "object") {
     patchMe = Object.assign(patchMe, browserNode);

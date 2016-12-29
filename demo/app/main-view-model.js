@@ -7,7 +7,6 @@ var DemoAppModel = (function (_super) {
     _super.call(this);
   }
 
-  // require this if you get an xhr error like "Event not supported: readystatechange" (aws-sdk needs it)
   require("nativescript-nodeify");
 
   DemoAppModel.prototype.authUser = function () {

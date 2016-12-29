@@ -1,12 +1,11 @@
 {
   "nativescript": {
     "id": "org.nativescript.demo.nodecompat",
-    "nodeify": {
+    "xxxxxxxx-disabled---nodeify": {
       "auto----this-is-unused-atm": true,
       "global-dependencies": {
         "xml2js": "nativescript-xml2js",
-        "http": "stream-http",
-        "https": "https-browserify"
+        "http": "stream-http"
       },
       "package-dependencies": {
         "amazon-cognito-identity-js/node_modules/aws-sdk": [
@@ -25,7 +24,6 @@
   },
   "dependencies": {
     "amazon-cognito-identity-js": "^1.8.0",
-    "events": "^1.1.1",
     "jsonwebtoken": "7.2.1",
     "nativescript-nodeify": "file:..",
     "nativescript-unit-test-runner": "^0.3.0",
