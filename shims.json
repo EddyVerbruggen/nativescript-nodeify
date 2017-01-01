@@ -8,7 +8,7 @@
   "dgram": "nativescript-nodeify/empty.js",
   "dns": "nativescript-nodeify/empty.js",
   "events": "nativescript-nodeify/node_modules/events",
-  "fs": "nativescript-nodeify/nativescript-node/fs",
+  "fs": "nativescript-nodeify/node_modules/nativescript-node/fs",
   "http": "nativescript-nodeify/node_modules/stream-http",
   "https": "nativescript-nodeify/node_modules/https-browserify",
   "net": "nativescript-nodeify/empty.js",
