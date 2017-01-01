@@ -1,6 +1,6 @@
 {
   "name": "nativescript-nodeify",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Attempts to make most npm modules 'just work' with NativeScript",
   "main": "nodeify",
   "nativescript": {
@@ -24,7 +24,8 @@
     "test.android": "cd demo && tns test android",
     "preparedemo": "cd demo && tns plugin add .. && tns install",
     "setup": "npm i && cd demo && npm i && cd .. && cd demo && tns plugin add .. && cd ..",
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.js",
+    "preuninstall": "node preuninstall.js"
   },
   "repository": {
     "type": "git",
