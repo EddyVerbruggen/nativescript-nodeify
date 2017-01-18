@@ -6,8 +6,10 @@
   "constants": "nativescript-nodeify/node_modules/constants-browserify",
   "crypto": "nativescript-nodeify/node_modules/crypto-browserify",
   "dgram": "nativescript-nodeify/empty.js",
+  "domain": "nativescript-nodeify/node_modules/domain-browser",
   "dns": "nativescript-nodeify/empty.js",
   "events": "nativescript-nodeify/node_modules/events",
+  "fs": "nativescript-nodeify/node_modules/nativescript-node/fs",
   "http": "nativescript-nodeify/node_modules/stream-http",
   "https": "nativescript-nodeify/node_modules/https-browserify",
   "net": "nativescript-nodeify/empty.js",
@@ -23,5 +25,6 @@
   "tls": "nativescript-nodeify/empty.js",
   "url": "nativescript-nodeify/node_modules/url",
   "util": "nativescript-nodeify/node_modules/util/util.js",
-  "zlib": "nativescript-nodeify/node_modules/browserify-zlib"
+  "zlib": "nativescript-nodeify/node_modules/browserify-zlib",
+  "xml2js": "nativescript-nodeify/node_modules/nativescript-xml2js"
 }
