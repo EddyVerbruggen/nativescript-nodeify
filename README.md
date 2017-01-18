@@ -52,6 +52,7 @@ This plugin isn't perfect, but it tried to solve issues for as many of the gazil
 
 * Like Browserify we're using shims to fill the gaps between Node and the browser, but unlike Browserify shims we're not running in a browser, so some API's may not be available. Anything that touches the DOM for instance.  
 * On Android you may run into trouble when using npm packages ending with `.js`, [an issue has been submitted](https://github.com/NativeScript/android-runtime/issues/666) to the {N} Android runtime repo.
+* The http shim isn't perfect (like [usage of `global.location.protocol.search`](https://github.com/jhiesey/stream-http/blob/master/index.js#L17)), so may need to do what [RN did](https://github.com/tradle/react-native-http) and roll our own (if anyone needs it).
 
 ## Recipies
 To get you started with a few popular npm modules, here's some recipies. Please share your own by sending a PR to this repo! 
