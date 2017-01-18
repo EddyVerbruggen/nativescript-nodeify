@@ -62,6 +62,32 @@ var DemoAppModel = (function (_super) {
     });
   };
 
+  DemoAppModel.prototype.listS3Buckets = function () {
+    require("nativescript-nodeify");
+
+    var AWS = require('aws-sdk');
+
+    AWS.config.update({
+        region: "<your-region>",
+        credentials: {
+          accessKeyId: "<your-key>",
+          secretAccessKey: "<your-secret>"
+        }
+    });
+
+    var s3 = new AWS.S3({
+        apiVersion: "2006-03-01"
+    });
+
+    s3.listObjects({Bucket: "telerikdemoapp"}, function (err, data) {
+        if (err) {
+            consoe.log(JSON.stringify(err));
+        } else {
+            console.log("S3 bucket contents: " + JSON.stringify(data.Contents));
+        }
+    });
+  };
+
   DemoAppModel.prototype.signUpUser = function () {
     // see https://github.com/aws/amazon-cognito-identity-js
     var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
@@ -171,6 +197,27 @@ var DemoAppModel = (function (_super) {
     var uuid = require('node-uuid');
     console.log("uuid.v1: " + uuid.v1());
   };
+
+  /*
+  DemoAppModel.prototype.salesforce = function () {
+    // example from https://jsforce.github.io/
+    var jsforce = require('jsforce');
+
+    var conn = new jsforce.Connection();
+    conn.login('my username', 'my password', function (err, res) {
+      console.log("--- res: " + JSON.stringify(res));
+      if (err) {
+        return console.error(err);
+      }
+      conn.query('SELECT Id, Name FROM Account', function (err, res) {
+        if (err) {
+          return console.error(err);
+        }
+        console.log(res);
+      });
+    });
+  };
+  */
 
   return DemoAppModel;
 })(observable.Observable);

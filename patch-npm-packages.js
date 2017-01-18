@@ -18,15 +18,12 @@ var fs = require('fs'),
     replaceInFile = require('replace-in-file');
 
 function changeFiles(files, replace, by) {
-  var changedFiles = replaceInFile.sync({
+  return replaceInFile.sync({
     files: files,
     replace: replace,
     with: by,
     allowEmptyPaths: true
   });
-  if (changedFiles.length > 0) {
-    log("\nReplaced '" + replace + "' by '" + by + "' in:\n " + changedFiles.join('\n '));
-  }
 }
 
 function findFilesByName(startPath, filter, result) {
@@ -93,40 +90,96 @@ function patchPackage(packagepath, nodeCompatPatchNode) {
 
   var transformed = [];
   var nodeValue;
-  // duplicate all modules starting with './' to '../' as modules may be referenced in either way
   for (nodeValue in patchMe) {
     if (patchMe.hasOwnProperty(nodeValue)) {
-      if (patchMe[nodeValue]) {
-        if (nodeValue.startsWith("./")) {
-          transformed.push(["\\.\\" + nodeValue, "." + patchMe[nodeValue]]);
-        }
-        transformed.push([nodeValue, patchMe[nodeValue]]);
+
+      var browserReplacement = patchMe[nodeValue];
+
+      if (nodeValue.endsWith(".js")) {
+        nodeValue = nodeValue.substring(0, nodeValue.indexOf(".js"));
+      }
+      if (browserReplacement && browserReplacement.endsWith(".js")) {
+        browserReplacement = browserReplacement.substring(0, browserReplacement.indexOf(".js"));
+      }
+
+      if (!nodeValue.startsWith(".") && (!browserReplacement || !browserReplacement.startsWith("."))) {
+        // these don't use relative paths, so let's use a quick search-replace algorithm here
+        transformed.push([nodeValue, browserReplacement]);
       } else {
+        var transformedPartially = [];
         if (nodeValue.startsWith("./")) {
-          transformed.push(["\\.\\" + nodeValue, false]);
+          transformedPartially.push(["\\.\\" + nodeValue, "__REPLACE__REAL__PATH__" + "." + nodeValue]);
         }
-        transformed.push([nodeValue, false]);
+        transformedPartially.push([nodeValue, "__REPLACE__REAL__PATH__" + nodeValue]); // this one traverses into node_modules, but the fixer below doesnt
+        var changedPartialFiles = transformFiles(packagepath, transformedPartially);
+        var nrOfPatchedFiles = 0;
+        if (changedPartialFiles.length > 0) {
+          log("%%%%%%%% changed " + changedPartialFiles.length + " files partially for packagepath " + packagepath + " with nodeValue " + nodeValue + ":\n " + changedPartialFiles.join('\n '));
+          // beware: don't traverse into the node_modules folder of this pkg!
+          // SO: open all of those files
+          changedPartialFiles.forEach(function(partiallyChangedFile) {
+            var packagelessFilename = partiallyChangedFile.substring(packagepath.length + 1);
+            if (packagelessFilename.indexOf("node_modules/") === -1) {
+              var pathDepth = packagelessFilename.split("/").length - 1;
+              var prefixPath = "";
+              for (var i=0; i<pathDepth; i++) {
+                prefixPath += "../";
+              }
+              if (prefixPath === "") {
+                prefixPath = "./"
+              }
+
+              if (prefixPath === "./") {
+                if (!browserReplacement) {
+                  log("--------- no browserReplacement for " + nodeValue + " in " + packagepath);
+                }
+                var patchMeWithoutPrefix = nodeValue.indexOf("/") === -1 ? nodeValue : nodeValue.substring(nodeValue.indexOf("/") + 1); // "lib/node_loader"; // TODO dynamic
+                var patchMeValueWithoutPrefix = browserReplacement.indexOf("/") === -1 ? browserReplacement : browserReplacement.substring(browserReplacement.indexOf("/") + 1); // "lib/browser_loader" ; // browserReplacement; // TODO dynamic
+
+                var where = [partiallyChangedFile],
+                    what = new RegExp("__REPLACE__REAL__PATH__(.*)" + patchMeWithoutPrefix, "g"),
+                    by = prefixPath + patchMeValueWithoutPrefix;
+
+                var changedFiles = changeFiles(where, what, by);
+                if (changedFiles.length > 0) {
+                  log("------------------ changed " + partiallyChangedFile + ", " + what + " --> " + by);
+                  nrOfPatchedFiles += changedFiles.length;
+                }
+              }
+            }
+          });
+        }
       }
     }
   }
 
-  for (var i in transformed) {
-    nodeValue = transformed[i][0];
-    var browserReplacement = transformed[i][1];
-    if (nodeValue.endsWith(".js")) {
-      nodeValue = nodeValue.substring(0, nodeValue.indexOf(".js"));
-    }
-    if (browserReplacement && browserReplacement.endsWith(".js")) {
-      browserReplacement = browserReplacement.substring(0, browserReplacement.indexOf(".js"));
-    }
-    var where = [path.join(packagepath, "**", "*.js")],
-        what = new RegExp("require\\(['\"]" + nodeValue + "['\"]\\)", "g"),
-        // to be safe, adding a space after require so it won't match repeatedly
-        by = browserReplacement ? "require ('" + browserReplacement + "')" : "{}";
-    changeFiles(where, what, by);
+  var where = [path.join(packagepath, "**", "*.js")],
+      what = new RegExp("__REPLACE__REAL__PATH__", "g"),
+      by = "";
+
+  var changedFiles = changeFiles(where, what, by);
+  if (changedFiles.length > 0) {
+    log("--- changed files back: " + changedFiles.join("\n ----- "));
   }
+
+  transformFiles(packagepath, transformed);
 }
 
+function transformFiles(packagepath, transformations) {
+  var allChangedFiles = [];
+  for (var i in transformations) {
+    var nodeValue = transformations[i][0];
+    var browserReplacement = transformations[i][1];
+    var where = [path.join(packagepath, "**", "*.js")],
+        what = new RegExp("require\\(['\"]" + nodeValue + "['\"]\\)", "g"),
+        by = browserReplacement ? "require('" + browserReplacement + "')" : "{}";
+    var changedFiles = changeFiles(where, what, by);
+    if (changedFiles.length > 0) {
+      allChangedFiles = allChangedFiles.concat(changedFiles);
+    }
+  }
+  return allChangedFiles;
+}
 
 try {
   // read the app package.json's dependencies node

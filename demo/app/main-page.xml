@@ -8,6 +8,9 @@
     <Button text="Update Dynamo table" tap="{{ updateDynamoTable }}" class="button button-b"/>
     <Button text="jsonwebtokens" tap="{{ jwt }}" class="button button-c"/>
     <Button text="node-uuid" tap="{{ nodeUUID }}" class="button button-c"/>
+
+    <!-- doesn't work because of the http shim, see the readme of this plugin -->
+    <!--<Button text="Salesforce (jsforce)" tap="{{ salesforce }}" class="button button-d"/>-->
   </StackLayout>
 
 </Page>
