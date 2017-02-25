@@ -1,27 +1,37 @@
+var fs = require('fs'),
+    path = require('path'),
+    replaceInFile = require('replace-in-file');
+
 function log(what) {
+  // enable this line to see what the nodeify plugin is up to
   // console.log(what);
 }
 
 var shims = require('./shims.json');
 
-// never touch these, for performance reasons
+// any shims that are installed in nativescript-nodeify/node_modules need an update
+var nodeFolder = path.join(__dirname, "node_modules");
+var files = fs.readdirSync(nodeFolder);
+
+for (var i = 0; i < files.length; i++) {
+  var filename = files[i];
+  shims[filename] = "nativescript-nodeify/node_modules/" + filename;
+}
+
+// never touch these
 var blacklist = [
+  "nativescript-nodeify",
+  "nativescript-node",
   "tns-core-modules",
-  "nativescript-nodeify/node_modules/replace-in-file"
+  "form-data",
+  ".bin"
 ];
-
-// and don't touch these as their browser implementation is actually less {N} compatible than the default
-blacklist.push("form-data");
-
-var fs = require('fs'),
-    path = require('path'),
-    replaceInFile = require('replace-in-file');
 
 function changeFiles(files, replace, by) {
   return replaceInFile.sync({
     files: files,
-    replace: replace,
-    with: by,
+    from: replace,
+    to: by,
     allowEmptyPaths: true
   });
 }
@@ -117,12 +127,12 @@ function patchPackage(packagepath, nodeCompatPatchNode) {
           log("%%%%%%%% changed " + changedPartialFiles.length + " files partially for packagepath " + packagepath + " with nodeValue " + nodeValue + ":\n " + changedPartialFiles.join('\n '));
           // beware: don't traverse into the node_modules folder of this pkg!
           // SO: open all of those files
-          changedPartialFiles.forEach(function(partiallyChangedFile) {
+          changedPartialFiles.forEach(function (partiallyChangedFile) {
             var packagelessFilename = partiallyChangedFile.substring(packagepath.length + 1);
             if (packagelessFilename.indexOf("node_modules/") === -1) {
               var pathDepth = packagelessFilename.split("/").length - 1;
               var prefixPath = "";
-              for (var i=0; i<pathDepth; i++) {
+              for (var i = 0; i < pathDepth; i++) {
                 prefixPath += "../";
               }
               if (prefixPath === "") {
@@ -182,20 +192,23 @@ function transformFiles(packagepath, transformations) {
 }
 
 try {
-  // read the app package.json's dependencies node
-  var appPackageJson = require(path.join(__dirname, "..", "..", "package.json"));
-  var appDependencies = appPackageJson.dependencies;
-
-  // scan those nodes (and its children)
   var packages = [];
-  for (var nodeValue in appDependencies) {
-    if (appDependencies.hasOwnProperty(nodeValue) && blacklist.indexOf(nodeValue) === -1 && (nodeValue === "nativescript-nodeify" || !nodeValue.startsWith("nativescript"))) {
-      findFilesByName(path.join(__dirname, "..", nodeValue), "package.json", packages);
+  function getPackageJsons(folderStr) {
+    var folder = fs.readdirSync(folderStr);
+    for (var j = 0; j < folder.length; j++) {
+      var folderName = folder[j];
+      if (/*appDependencies.hasOwnProperty(folderName) &&*/ blacklist.indexOf(folderName) === -1 && !folderName.startsWith("@") && (folderName === "nativescript-nodeify" || !folderName.startsWith("nativescript"))) {
+        var f = path.join(folderStr, folderName);
+        findFilesByName(f, "package.json", packages);
+      }
     }
   }
-  log("\npackage.jsons found in:\n " + packages.join("\n "));
+  // fills the packages array with local and global dependencies
+  getPackageJsons(path.join(__dirname, ".."));
+  getPackageJsons(path.join(__dirname, "node_modules"));
 
   // patch global dependencies
+  var appPackageJson = require(path.join(__dirname, "..", "..", "package.json"));
   var customGlobalPatches = appPackageJson.nativescript["nodeify"] ? appPackageJson.nativescript["nodeify"]["global-dependencies"] || {} : {};
   for (var p in packages) {
     patchPackage(packages[p], customGlobalPatches);

@@ -27,8 +27,8 @@ var DemoAppModel = (function (_super) {
 
     // app: nativescript-awstest
     var poolData = {
-      UserPoolId: '<your-userpool-id>',
-      ClientId: '<your-client-id>'
+      UserPoolId: 'my-userpool',
+      ClientId: 'my-client-id'
     };
 
     var userPool = new CognitoUserPool(poolData);
@@ -44,10 +44,10 @@ var DemoAppModel = (function (_super) {
 
         var AWS = require('amazon-cognito-identity-js/node_modules/aws-sdk');
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: '<your-userpool-id>', // your identity pool id here
+          IdentityPoolId: 'my-userpool', // your identity pool id here
           Logins: {
             // Change the key below according to the specific region your user pool is in.
-            'cognito-idp.<your-region>.amazonaws.com/<your-userpool-id>': result.getIdToken().getJwtToken()
+            'cognito-idp.my-region.amazonaws.com/my-userpool': result.getIdToken().getJwtToken()
           }
         });
 
@@ -66,10 +66,10 @@ var DemoAppModel = (function (_super) {
     var AWS = require('aws-sdk');
 
     AWS.config.update({
-        region: "<your-region>",
+        region: "my-region",
         credentials: {
-          accessKeyId: "<your-key>",
-          secretAccessKey: "<your-secret>"
+          accessKeyId: "my-key",
+          secretAccessKey: "my-secret"
         }
     });
 
@@ -93,8 +93,8 @@ var DemoAppModel = (function (_super) {
 
     // app: nativescript-awstest
     var poolData = {
-      UserPoolId: '<your-userpool-id>',
-      ClientId: '<your-client-id>'
+      UserPoolId: 'my-userpool',
+      ClientId: 'my-client-id'
     };
 
     var userPool = new CognitoUserPool(poolData);
@@ -121,10 +121,10 @@ var DemoAppModel = (function (_super) {
   DemoAppModel.prototype.listDynamoTables = function () {
     var AWS = require('aws-sdk');
     AWS.config.update({
-      region: "<your-region>",
+      region: "my-region",
       credentials: {
-        accessKeyId: "<your-key>",
-        secretAccessKey: "<your-secret>"
+        accessKeyId: "my-key",
+        secretAccessKey: "my-secret"
       }
     });
 
@@ -145,10 +145,10 @@ var DemoAppModel = (function (_super) {
   DemoAppModel.prototype.updateDynamoTable = function () {
     var AWS = require('aws-sdk');
     AWS.config.update({
-      region: "<your-region>",
+      region: "my-region",
       credentials: {
-        accessKeyId: "<your-key>",
-        secretAccessKey: "<your-secret>"
+        accessKeyId: "my-key",
+        secretAccessKey: "my-secret"
       }
     });
 
