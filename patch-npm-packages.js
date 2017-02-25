@@ -224,6 +224,7 @@ try {
           var toPatch = toPatchArray[tpa];
           for (var tp in toPatch) {
             var where = path.join(__dirname, "..", patchMe, "**", "*.js");
+            log("locally patching at " + where);
             // TODO (no rush) should try to make these proper require regex strings.. try leveraging patchPackage()
             changeFiles([where], tp, toPatch[tp]);
           }
