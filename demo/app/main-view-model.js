@@ -27,8 +27,8 @@ var DemoAppModel = (function (_super) {
 
     // app: nativescript-awstest
     var poolData = {
-      UserPoolId: 'my-userpool',
-      ClientId: 'my-client-id'
+      UserPoolId: 'us-east-1_N509f1jYm',
+      ClientId: '<your-client-id>'
     };
 
     var userPool = new CognitoUserPool(poolData);
@@ -42,12 +42,12 @@ var DemoAppModel = (function (_super) {
       onSuccess: function (result) {
         console.log('access token + ' + result.getAccessToken().getJwtToken());
 
-        var AWS = require('amazon-cognito-identity-js/node_modules/aws-sdk');
+        var AWS = require('aws-sdk');
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: 'my-userpool', // your identity pool id here
+          IdentityPoolId: 'us-east-1_N509f1jYm', // your identity pool id here
           Logins: {
             // Change the key below according to the specific region your user pool is in.
-            'cognito-idp.my-region.amazonaws.com/my-userpool': result.getIdToken().getJwtToken()
+            'cognito-idp.us-east-1.amazonaws.com/my-userpool': result.getIdToken().getJwtToken()
           }
         });
 
@@ -56,9 +56,8 @@ var DemoAppModel = (function (_super) {
       },
 
       onFailure: function (err) {
-        alert(err);
+        console.log("authUser error: " + authUser);
       }
-
     });
   };
 
@@ -66,10 +65,10 @@ var DemoAppModel = (function (_super) {
     var AWS = require('aws-sdk');
 
     AWS.config.update({
-        region: "my-region",
+        region: "eu-central-1",
         credentials: {
-          accessKeyId: "my-key",
-          secretAccessKey: "my-secret"
+          accessKeyId: "<your-access-key>",
+          secretAccessKey: "<your-secret-access-key>"
         }
     });
 
@@ -93,8 +92,8 @@ var DemoAppModel = (function (_super) {
 
     // app: nativescript-awstest
     var poolData = {
-      UserPoolId: 'my-userpool',
-      ClientId: 'my-client-id'
+      UserPoolId: 'us-east-1_N509f1jYm',
+      ClientId: '<your-client-id>'
     };
 
     var userPool = new CognitoUserPool(poolData);
@@ -102,13 +101,13 @@ var DemoAppModel = (function (_super) {
     var attributeList = [];
     // var attributeEmail = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
     var dataEmail = {
-      Name: 'email',
-      Value: 'email@mydomain.com'
+      Name: 'email2',
+      Value: 'email2@myawesomedomain.com'
     };
     var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
     attributeList.push(attributeEmail);
 
-    userPool.signUp('EddyVerbruggen3', 'password123', attributeList, null, function (err, result) {
+    userPool.signUp('EddyVerbruggen4', 'password123', attributeList, null, function (err, result) {
       if (err) {
         console.log(err);
         return;
@@ -121,17 +120,17 @@ var DemoAppModel = (function (_super) {
   DemoAppModel.prototype.listDynamoTables = function () {
     var AWS = require('aws-sdk');
     AWS.config.update({
-      region: "my-region",
+      region: "eu-central-1",
       credentials: {
-        accessKeyId: "my-key",
-        secretAccessKey: "my-secret"
+        accessKeyId: "<your-access-key>",
+        secretAccessKey: "<your-secret-access-key>"
       }
     });
 
     var db = new AWS.DynamoDB();
     db.listTables(function (err, data) {
       if (err) {
-        dialogs.alert(JSON.stringify(err));
+        console.log("dynamo list error: " + err);
       } else {
         dialogs.alert({
           title: "Dynamo tables",
@@ -147,8 +146,8 @@ var DemoAppModel = (function (_super) {
     AWS.config.update({
       region: "my-region",
       credentials: {
-        accessKeyId: "my-key",
-        secretAccessKey: "my-secret"
+        accessKeyId: "<your-access-key>",
+        secretAccessKey: "<your-secret-access-key>"
       }
     });
 
@@ -162,7 +161,11 @@ var DemoAppModel = (function (_super) {
       }
     }, function (err, data) {
       if (err) {
-        dialogs.alert(err);
+        dialogs.alert({
+          title: "Error",
+          message: JSON.stringify(err),
+          okButtonText: "OK"
+        })
       } else {
         dialogs.alert({
           title: "",
