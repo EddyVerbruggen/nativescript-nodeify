@@ -79,8 +79,16 @@ $ npm install jsonwebtoken --save
 ```
 Boom! Done. Again.
 
-### `amazon-cognito-identity-js` with `aws-sdk`
+### `aws-sdk` or `amazon-cognito-identity-js` (which includes `aws-sdk`)
 This one requires a bit more setup, but it's not too bad:
+
+Depending on what you need:
+
+```bash
+$ npm install aws-sdk --save
+```
+
+or
 
 ```bash
 $ npm install amazon-cognito-identity-js --save
@@ -101,14 +109,12 @@ So open you app's `package.json` and add this `nodeify` node to the existing `na
           }
         ]
       }
-    },
-    ..
-  },
-  ..
+    }
+  }
 }
 ```
 
-Then in your code:
+Then in your code for `amazon-cognito-identity-js`:
 ```js
 // require this to fix an issue with xhr event states
 require('nativescript-nodeify');
@@ -117,7 +123,10 @@ require('nativescript-nodeify');
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 var userPool = new CognitoUserPool({UserPoolId: 'foo', ClientId: 'bar'});
+```
 
+Now just use AWS as usual:
+```js
 // then require AWS and interact with s3, dynamo, whatnot
 var AWS = require('aws');
 ```
