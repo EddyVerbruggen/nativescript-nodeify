@@ -12,7 +12,7 @@ A. You can install dependencies as normal, and this plugin as well, then at buil
 a hook installed by this plugin will scan and modify your modules as it sees fit to make them {N}-compatible.
 
 #### Q. Lol. Wut? Modify my precious modules!?
-A. Yes. The hook looks at the `dependencies` node of your app's `package.json`, and for each dependency it finds it does a few things:
+A. Yes. The hook looks at the packages installed in `node_modules` and for each dependency it does a few things:
 * Look for a `browser` node in their `package.json` and find-replaces any matching `require()` calls in that package and its dependencies.
 * If there's a `main` replacement in the `browser` node it also takes care of that.
 * If any of the dependencies (and this can go deeeeeeeeeeep - remember `left-pad`?) contains something we need to shim, we will based on [this list](https://github.com/EddyVerbruggen/nativescript-nodeify/blob/master/shims.json).
@@ -84,9 +84,31 @@ This one requires a bit more setup, but it's not too bad:
 
 ```bash
 $ npm install amazon-cognito-identity-js --save
-$ npm install nativescript-aws --save
 ```
 
+To parse XML returned from AWS correctly (fi. when listing S3 bucket contents) we need
+to patch an additional library because the browser shim expects an.. ehm.. browser.
+
+So open you app's `package.json` and add this `nodeify` node to the existing `nativescript` node:
+```json
+{
+  "nativescript": {
+    "nodeify": {
+      "package-dependencies": {
+        "aws-sdk": [
+          {
+            "xml/browser_parser": "xml/node_parser"
+          }
+        ]
+      }
+    },
+    ..
+  },
+  ..
+}
+```
+
+Then in your code:
 ```js
 // require this to fix an issue with xhr event states
 require('nativescript-nodeify');
@@ -97,6 +119,5 @@ var CognitoUserPool = AmazonCognitoIdentity.CognitoUserPool;
 var userPool = new CognitoUserPool({UserPoolId: 'foo', ClientId: 'bar'});
 
 // then require AWS and interact with s3, dynamo, whatnot
-var AWS = require('nativescript-aws');
+var AWS = require('aws');
 ```
-For examples on AWS usage see [nativescript-aws](https://github.com/EddyVerbruggen/nativescript-aws#api).
