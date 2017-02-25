@@ -82,6 +82,8 @@ Boom! Done. Again.
 ### `aws-sdk` or `amazon-cognito-identity-js` (which includes `aws-sdk`)
 This one requires a bit more setup, but it's not too bad:
 
+> Never check in your AWS keys! Bots scan public repos and will create server instances you'll get billed for.
+
 Depending on what you need:
 
 ```bash
