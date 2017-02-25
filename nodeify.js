@@ -7,6 +7,8 @@ XMLHttpRequest.prototype.addEventListener = function(eventName, callback) {
     this.onreadystatechange = callback;
   } else if (eventName === "progress") {
     this.onprogress = callback;
+  } else if (eventName === "abort") {
+    this.abort = callback;
   } else if (eventName === "timeout") {
     this.ontimeout = callback;
   } else {
