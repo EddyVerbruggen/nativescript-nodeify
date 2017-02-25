@@ -63,8 +63,6 @@ var DemoAppModel = (function (_super) {
   };
 
   DemoAppModel.prototype.listS3Buckets = function () {
-    require("nativescript-nodeify");
-
     var AWS = require('aws-sdk');
 
     AWS.config.update({
@@ -121,7 +119,7 @@ var DemoAppModel = (function (_super) {
   };
 
   DemoAppModel.prototype.listDynamoTables = function () {
-    var AWS = require('amazon-cognito-identity-js/node_modules/aws-sdk');
+    var AWS = require('aws-sdk');
     AWS.config.update({
       region: "<your-region>",
       credentials: {
@@ -145,7 +143,7 @@ var DemoAppModel = (function (_super) {
   };
 
   DemoAppModel.prototype.updateDynamoTable = function () {
-    var AWS = require('amazon-cognito-identity-js/node_modules/aws-sdk');
+    var AWS = require('aws-sdk');
     AWS.config.update({
       region: "<your-region>",
       credentials: {
@@ -197,27 +195,6 @@ var DemoAppModel = (function (_super) {
     var uuid = require('node-uuid');
     console.log("uuid.v1: " + uuid.v1());
   };
-
-  /*
-  DemoAppModel.prototype.salesforce = function () {
-    // example from https://jsforce.github.io/
-    var jsforce = require('jsforce');
-
-    var conn = new jsforce.Connection();
-    conn.login('my username', 'my password', function (err, res) {
-      console.log("--- res: " + JSON.stringify(res));
-      if (err) {
-        return console.error(err);
-      }
-      conn.query('SELECT Id, Name FROM Account', function (err, res) {
-        if (err) {
-          return console.error(err);
-        }
-        console.log(res);
-      });
-    });
-  };
-  */
 
   return DemoAppModel;
 })(observable.Observable);
