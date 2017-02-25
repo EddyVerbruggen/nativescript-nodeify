@@ -1,14 +1,9 @@
 {
   "nativescript": {
     "id": "org.nativescript.demo.nodecompat",
-    "xxxxxxxx-disabled---nodeify": {
-      "auto----this-is-unused-atm": true,
-      "global-dependencies": {
-        "xml2js": "nativescript-xml2js",
-        "http": "stream-http"
-      },
+    "nodeify": {
       "package-dependencies": {
-        "amazon-cognito-identity-js/node_modules/aws-sdk": [
+        "aws-sdk": [
           {
             "xml/browser_parser": "xml/node_parser"
           }
@@ -16,6 +11,9 @@
       }
     },
     "tns-android": {
+      "version": "2.5.0"
+    },
+    "tns-ios": {
       "version": "2.5.0"
     }
   },
