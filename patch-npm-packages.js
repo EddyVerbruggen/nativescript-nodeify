@@ -11,11 +11,12 @@ var shims = require('./shims.json');
 
 // any shims that are installed in nativescript-nodeify/node_modules need an update
 var nodeFolder = path.join(__dirname, "node_modules");
-var files = fs.readdirSync(nodeFolder);
-
-for (var i = 0; i < files.length; i++) {
-  var filename = files[i];
-  shims[filename] = "nativescript-nodeify/node_modules/" + filename;
+if (fs.existsSync(nodeFolder)) {
+  var files = fs.readdirSync(nodeFolder);
+  for (var i = 0; i < files.length; i++) {
+    var filename = files[i];
+    shims[filename] = "nativescript-nodeify/node_modules/" + filename;
+  }
 }
 
 // never touch these
