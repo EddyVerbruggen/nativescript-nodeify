@@ -24,6 +24,7 @@ var blacklist = [
   "nativescript-nodeify",
   "nativescript-node",
   "tns-core-modules",
+  "typescript",
   "form-data",
   ".bin"
 ];
