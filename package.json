@@ -1,6 +1,6 @@
 {
   "name": "nativescript-nodeify",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Attempts to make most npm modules 'just work' with NativeScript",
   "main": "nodeify",
   "nativescript": {
@@ -11,14 +11,17 @@
     "hooks": [
       {
         "type": "before-prepare",
-        "script": "patch-npm-packages.js"
+        "script": "patch-npm-packages.js",
+        "inject": true
       }
-    ]
+    ],
+    "tns-ios": {
+      "version": "2.5.0"
+    }
   },
   "scripts": {
-    "demo.ios": "npm run preparedemo && cd demo && tns emulate ios",
-    "demo.ios.device": "npm run preparedemo && cd demo && tns run ios",
-    "demo.android": "npm run preparedemo && cd demo && tns run android",
+    "demo.ios": "tns run ios",
+    "demo.android": "tns run android",
     "test.ios": "cd demo && tns test ios --emulator",
     "test.ios.device": "cd demo && tns test ios",
     "test.android": "cd demo && tns test android",
