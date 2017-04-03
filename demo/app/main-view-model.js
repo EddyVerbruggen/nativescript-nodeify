@@ -1,5 +1,6 @@
 var observable = require("data/observable");
 var dialogs = require("ui/dialogs");
+var fs = require("file-system");
 
 var DemoAppModel = (function (_super) {
   __extends(DemoAppModel, _super);
@@ -8,6 +9,34 @@ var DemoAppModel = (function (_super) {
   }
 
   require("nativescript-nodeify");
+
+  DemoAppModel.prototype.nedbMemory = function () {
+    var Nedb = require('nedb');
+    var db = new Nedb({autoload: true});
+    var doc = {foo: "bar"};
+    db.insert(doc, function (err, newDoc) {
+      console.log("err: " + err);
+      console.log("newDoc: " + JSON.stringify(newDoc));
+    });
+  };
+
+  DemoAppModel.prototype.nedbFs = function () {
+    var Nedb = require('nedb');
+    var path = fs.knownFolders.documents().path + '/database.db';
+
+    var db = new Nedb({
+      filename: path
+    });
+
+    db.loadDatabase(function (err) {
+      // Now commands will be executed
+      var doc = {"foo": "bar"};
+      db.insert(doc, function (err, newDoc) {
+        console.log("err: " + err);
+        console.log("newDoc: " + JSON.stringify(newDoc));
+      });
+    });
+  };
 
   DemoAppModel.prototype.authUser = function () {
     // see https://github.com/aws/amazon-cognito-identity-js
@@ -65,23 +94,23 @@ var DemoAppModel = (function (_super) {
     var AWS = require('aws-sdk');
 
     AWS.config.update({
-        region: "eu-central-1",
-        credentials: {
-          accessKeyId: "<your-access-key>",
-          secretAccessKey: "<your-secret-access-key>"
-        }
+      region: "eu-central-1",
+      credentials: {
+        accessKeyId: "<your-access-key>",
+        secretAccessKey: "<your-secret-access-key>"
+      }
     });
 
     var s3 = new AWS.S3({
-        apiVersion: "2006-03-01"
+      apiVersion: "2006-03-01"
     });
 
     s3.listObjects({Bucket: "telerikdemoapp"}, function (err, data) {
-        if (err) {
-            consoe.log(JSON.stringify(err));
-        } else {
-            console.log("S3 bucket contents: " + JSON.stringify(data.Contents));
-        }
+      if (err) {
+        consoe.log(JSON.stringify(err));
+      } else {
+        console.log("S3 bucket contents: " + JSON.stringify(data.Contents));
+      }
     });
   };
 

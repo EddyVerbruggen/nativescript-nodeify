@@ -10,6 +10,9 @@
     <Button text="jsonwebtokens" tap="{{ jwt }}" class="button button-d"/>
     <Button text="node-uuid" tap="{{ nodeUUID }}" class="button button-d"/>
 
+    <Button text="Nedb Memory" tap="{{ nedbMemory }}" class="button button-a"/>
+    <Button text="Nedb Fs" tap="{{ nedbFs }}" class="button button-a"/>
+
     <!-- doesn't work because of the http shim, see the readme of this plugin -->
     <!--<Button text="Salesforce (jsforce)" tap="{{ salesforce }}" class="button button-d"/>-->
   </StackLayout>

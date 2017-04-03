@@ -18,12 +18,12 @@
     }
   },
   "dependencies": {
-    "amazon-cognito-identity-js": "^1.8.0",
     "jsonwebtoken": "7.2.1",
     "nativescript-nodeify": "file:..",
     "nativescript-unit-test-runner": "^0.3.0",
+    "nedb": "1.8.0",
     "node-uuid": "^1.4.7",
-    "tns-core-modules": "^2.5.1"
+    "tns-core-modules": "^2.5.2"
   },
   "devDependencies": {
     "babel-traverse": "6.12.0",

@@ -1,12 +1,18 @@
 {
   "name": "nativescript-nodeify",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Attempts to make most npm modules 'just work' with NativeScript",
   "main": "nodeify",
   "nativescript": {
     "platforms": {
       "android": "2.3.0",
       "ios": "2.3.0"
+    },
+    "plugin": {
+      "nan": true,
+      "pan": true,
+      "core3": true,
+      "category": "Processing"
     },
     "hooks": [
       {
@@ -20,8 +26,8 @@
     }
   },
   "scripts": {
-    "demo.ios": "tns run ios",
-    "demo.android": "tns run android",
+    "demo.ios": "cd demo && rm -rf node_modules && npm i && tns run ios",
+    "demo.android": "cd demo && tns run android",
     "test.ios": "cd demo && tns test ios --emulator",
     "test.ios.device": "cd demo && tns test ios",
     "test.android": "cd demo && tns test android",
@@ -64,7 +70,7 @@
     "http-browserify": "~1.0.0",
     "https-browserify": "~0.0.0",
     "nativescript-hook": "^0.2.1",
-    "nativescript-node": "git+https://github.com/EddyVerbruggen/nativescript-node.git",
+    "nativescript-node": "git+https://github.com/EddyVerbruggen/nativescript-node.git#be2edd4",
     "nativescript-randombytes": "1.0.0",
     "nativescript-xml2js": "^0.1.0",
     "path-browserify": "0.0.0",
