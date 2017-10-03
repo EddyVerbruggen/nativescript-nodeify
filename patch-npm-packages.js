@@ -33,6 +33,9 @@ module.exports = function ($logger, $projectData, $usbLiveSyncService) {
     "tns-core-modules",
     "typescript",
     "form-data",
+    "replace-in-file",
+    "glob",
+    "fs.realpath",
     ".bin"
   ];
 
