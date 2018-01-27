@@ -224,7 +224,7 @@ module.exports = function ($logger, $projectData, $usbLiveSyncService) {
     }
 
     // patch global dependencies
-    var appPackageJson = require(path.join(__dirname, "..", "..", "package.json"));
+    var appPackageJson = require($projectData.projectFilePath);
     var customGlobalPatches = appPackageJson.nativescript["nodeify"] ? appPackageJson.nativescript["nodeify"]["global-dependencies"] || {} : {};
     for (var p in packages) {
       patchPackage(packages[p], customGlobalPatches);
