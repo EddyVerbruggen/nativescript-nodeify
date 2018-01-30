@@ -16,8 +16,8 @@
     },
     "hooks": [
       {
-        "type": "before-prepare",
-        "script": "patch-npm-packages.js",
+        "type": "after-prepare",
+        "script": "patch-platforms.js",
         "inject": true
       }
     ],
