@@ -10,11 +10,11 @@
         ]
       }
     },
-    "tns-android": {
-      "version": "2.5.0"
-    },
     "tns-ios": {
-      "version": "2.5.0"
+      "version": "3.4.1"
+    },
+    "tns-android": {
+      "version": "3.4.1"
     }
   },
   "dependencies": {
@@ -23,7 +23,7 @@
     "nativescript-unit-test-runner": "^0.3.0",
     "nedb": "1.8.0",
     "node-uuid": "^1.4.7",
-    "tns-core-modules": "^2.5.2"
+    "tns-core-modules": "~3.4.0"
   },
   "devDependencies": {
     "babel-traverse": "6.12.0",
