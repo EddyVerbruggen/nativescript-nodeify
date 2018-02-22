@@ -13,6 +13,7 @@
   "http": "stream-http",
   "https": "https-browserify",
   "net": "nativescript-nodeify/empty.js",
+  "os": "os-browserify",
   "path": "path-browserify",
   "punycode": "punycode",
   "querystring/": "querystring-es3/",

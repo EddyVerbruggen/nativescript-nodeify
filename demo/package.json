@@ -5,7 +5,8 @@
       "package-dependencies": {
         "aws-sdk": [
           {
-            "xml/browser_parser": "xml/node_parser"
+            "xml/browser_parser": "xml/node_parser",
+            "lib/node_loader": "lib/browser_loader"
           }
         ]
       }

@@ -106,7 +106,8 @@ So open you app's `package.json` and add this `nodeify` node to the existing `na
       "package-dependencies": {
         "aws-sdk": [
           {
-            "xml/browser_parser": "xml/node_parser"
+            "xml/browser_parser": "xml/node_parser",
+            "lib/node_loader": "lib/browser_loader"
           }
         ]
       }

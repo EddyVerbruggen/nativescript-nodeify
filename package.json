@@ -1,6 +1,6 @@
 {
   "name": "nativescript-nodeify",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Attempts to make most npm modules 'just work' with NativeScript",
   "main": "nodeify",
   "nativescript": {
@@ -73,6 +73,7 @@
     "nativescript-node": "git+https://github.com/EddyVerbruggen/nativescript-node.git#dc93ab4",
     "nativescript-randombytes": "1.0.0",
     "nativescript-xml2js": "~0.5.0",
+    "os-browserify": "~0.3.0",
     "path-browserify": "0.0.0",
     "process": "0.11.9",
     "punycode": "^2.0.1",
