@@ -1,9 +1,7 @@
-module.exports = function ($logger, $projectData, $usbLiveSyncService) {
-  // var liveSync = $usbLiveSyncService.isInitialized;
-	//
-  // if (liveSync) {
-  //   return;
-  // }
+module.exports = function ($logger, $projectData, changesInfo) {
+  if (!changesInfo.modulesChanged) {
+    return;
+  }
 
   var fs = require('fs'),
       path = require('path'),
