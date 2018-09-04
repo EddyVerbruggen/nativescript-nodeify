@@ -8,8 +8,7 @@ module.exports = function ($logger, $projectData, changesInfo) {
       replaceInFile = require('replace-in-file');
 
   function log(what) {
-    // enable this line to see what the nodeify plugin is up to
-    // console.log(what);
+    $logger.trace(what);
   }
 
   var shims = require('./shims.json');
