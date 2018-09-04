@@ -1,6 +1,6 @@
 {
   "name": "nativescript-nodeify",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Attempts to make most npm modules 'just work' with NativeScript",
   "main": "nodeify",
   "nativescript": {
